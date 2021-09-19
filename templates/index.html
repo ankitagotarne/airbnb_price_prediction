@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <title>Airbnb Price Prediction</title>
+  </head>
+  <body class="bg-secondary" style="background-image:url('https://mdbootstrap.com/img/new/standard/city/041.jpg');
+            height: 100vh">
+    <table border="0" width="15%" bgcolor="Gray" style="margin-left: 1150px">
+    <tr>
+      <th width="20%" align="center"><a href="#"><font color="white">HOME</a></font></th>
+      <th width="20%" align="center"><a href="http://127.0.0.1:5000/about"><font color="white">ABOUT US</a></font></th>
+    </tr>
+    </table>
+    <div class="container">
+      <div class="row">
+        <div class="card" style="width: 60%; height: 100%;  margin-top: 60px; margin-left: 200px;">
+          <div class="card-header" style="text-align: center;">
+            <h1 style="font-family: times">Welcome to Airbnb</h1>
+            <h3 style="font-family: courier">Amsterdam Properties Price Predictor</h3>
+          </div>
+          <div class="card-body">
+            <form method="post" accept-charset="utf-8">
+
+              <div class="row">
+
+                <div class="col-md-6 form-group" style="text-align: center;">
+                  <label><b>Select Room Type</b></label>                          
+                  <select class="selectpicker form-control" id="room_type" name="room_type" required="1">  
+                    {% for room_type in room_types %}
+                      <option value="{{ room_type }}">{{ room_type }}</option>
+                    {% endfor %}
+                  </select>               
+                </div>
+
+                <div class="col-md-6 form-group" style="text-align: center;">
+                  <label><b>Select Neighborhood</b></label>
+                  <select class="selectpicker form-control" id="neighborhood" name="neighborhood" required="1"> 
+                    {% for neighborhood in Neighborhood %}
+                      <option value="{{ neighborhood }}">{{ neighborhood }}</option>
+                    {% endfor %}
+
+                  </select>                                 
+                </div>
+                
+                <div class="col-md-6 form-group" style="text-align: center;"><br>
+                  <label><b>Enter Ratings</b></label>
+                  <input type="text" class="form-control" id="overall_satisfaction" name="overall_satisfaction" placeholder="Enter Ratings provided by Guest">               
+                </div>
+
+                <div class="col-md-6 form-group" style="text-align: center;"><br>
+                  <label><b>Enter Accommodates</b></label>
+                  <input type="text" class="form-control" id="accommodates" name="accommodates" placeholder="Enter Accommodates">               
+                </div>
+
+                <div class="col-md-6 form-group" style="text-align: center;"><br>
+                  <label><b>Enter Bedrooms</b></label>
+                  <input type="text" class="form-control" id="bedrooms" name="bedrooms" placeholder="Enter Bedrooms">               
+                </div>
+
+                <div class="col-md-6 form-group" style="text-align: center;"><br>
+                  <label><b>Enter Latitude</b></label>
+                  <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Enter Latitude">               
+                </div>
+
+                <center><div class="col-md-6 form-group" style="text-align: center;"><br>
+                  <label><b>Enter Longitude</b></label>
+                  <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Enter Longitude"></div>
+                </center>
+
+                <div class="col-md-12 form-group" ><br>
+                  <button  class="btn btn-primary form-control" onclick="send_data()" style="background-color: #4CAF50">Predict Price</button>
+                  
+                </div>
+
+              </div>
+              
+            </form>
+            <br>
+            <div class="col-md-12" style="text-align: center;">
+              <h3><span id="prediction"></span></h3>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <script>
+      function form_handler(event) {
+
+        event.preventDefault(); // Don't submit the form normally
+      }
+      function send_data()
+      {
+
+        document.querySelector('form').addEventListener("submit",form_handler);
+
+        var fd=new FormData(document.querySelector('form'));
+
+        var xhr= new XMLHttpRequest();
+
+        xhr.open('POST','/predict',true);
+        document.getElementById('prediction').innerHTML = "Wait Predicting Price!....."
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                 document.getElementById('prediction').innerHTML="Predicted Price : £ "+xhr.responseText;
+            }
+        };
+        xhr.onload = function(){};
+        xhr.send(fd);
+
+      }
+      
+
+    </script>
+    
+
+
+
+
+    
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+  
+  </body>
+</html>

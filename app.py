@@ -7,9 +7,9 @@ import numpy
 import json
 
 
-app=Flask(__name__)
-df=pd.read_csv("airbnb prices.csv")
-model= pickle.load(open('airbnb.pkl','rb'))
+app = Flask(__name__)
+df = pd.read_csv("airbnb prices.csv")
+model = pickle.load(open('airbnb.pkl','rb'))
 print("Model Load")
 
 @app.route("/")
